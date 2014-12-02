@@ -14,7 +14,7 @@
 		</div>
 
 
-		<template>
+		<template id='profile-template'>
       <div class="profile">
         <div class="left">
           <img src="{{ avatar_url }}">
@@ -25,7 +25,7 @@
             <a href="{{ html_url }}">tansaku</a>
           </h3>
           <h4>Repos: {{ public_repos }}</h4>
-          <h4>Followers: {{ public_followers }}</h4>
+          <h4>Followers: {{ followers }}</h4>
         </div>
         <br clear="all">
       </div>
@@ -37,7 +37,7 @@
 		<script> 
 			$(document).ready(function(){
  				$.get('https://api.github.com/users/tansaku',function(user){
-    			var newProfile = Mustache.render($('profile-template').html(), user);
+    			var newProfile = Mustache.render($('#profile-template').html(), user);
     			$('.profile-container').append(newProfile);
   			})
 			});
