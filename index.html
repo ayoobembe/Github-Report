@@ -36,7 +36,7 @@
 		
 		<script> 
 			function addProfileFromUsername(username){
-				$.get('https://api.github.com/users/'+ username + '?access_token=', function(user){
+				$.get('https://api.github.com/users/'+ username + '?access_token=32ea53ae7007d136bdd89275825bf061779a6cab', function(user){
 					var newProfile = Mustache.render($('#profile-template').html(), user);
 					$('.profile-container').append(newProfile);
 				}).error(function(){
