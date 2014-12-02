@@ -1,0 +1,61 @@
+<html>
+	<head>
+		<title>Github profiles</title>
+		<link href='css/main.css' rel='stylesheet'>
+	</head>
+
+	<body>
+		<form id='add_profile'>
+			<input id='username' placeholder='Enter a Github username'>
+			<button type='submit'>Load profile</button>
+		</form>
+
+		<div class='profile-container'>
+		</div>
+
+
+		<template id='profile-template'>
+      <div class="profile">
+        <div class="left">
+          <img src="{{ avatar_url }}">
+        </div>
+
+        <div class="right">
+          <a class='close' href='#'>x</a>
+          <h3>
+            <a href="{{ html_url }}">{{ login }}</a>
+          </h3>
+          <h4>Repos: {{ public_repos }}</h4>
+          <h4>Followers: {{ followers }}</h4>
+        </div>
+        <br clear="all">
+      </div>
+    </template>
+
+		<script src='https://code.jquery.com/jquery-2.1.1.min.js'></script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.js'></script>
+		
+		<script> 
+			function addProfileFromUsername(username){
+				$.get('https://api.github.com/users/'+ username + '?access_token=32ea53ae7007d136bdd89275825bf061779a6cab', function(user){
+					var newProfile = Mustache.render($('#profile-template').html(), user);
+					$('.profile-container').prepend(newProfile);
+				}).error(function(){
+					alert('username does not exist: ' + username);
+				}).always(function(){
+					$('#username').val('');
+				})
+			}
+			$(document).ready(function(){
+				$('#add_profile').on('submit',function(event){
+					event.preventDefault();
+					addProfileFromUsername($('#username').val());
+				});
+				$('.profile-container').on('click', '.close', function(){
+          $(this).closest('.profile').remove();
+        });
+			});
+		</script>
+
+	</body>
+</html>
