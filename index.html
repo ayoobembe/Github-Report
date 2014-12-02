@@ -22,7 +22,7 @@
 
         <div class="right">
           <h3>
-            <a href="{{ html_url }}">tansaku</a>
+            <a href="{{ html_url }}">{{ login }}</a>
           </h3>
           <h4>Repos: {{ public_repos }}</h4>
           <h4>Followers: {{ followers }}</h4>
@@ -35,11 +35,17 @@
 		<script src='https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.js'></script>
 		
 		<script> 
+			function addProfileFromUsername(username){
+				$.get('https://api.github.com/users/'+ username, function(user){
+					var newProfile = Mustache.render($('#profile-template').html(), user);
+					$('.profile-container').append(newProfile);
+				})
+			}
 			$(document).ready(function(){
- 				$.get('https://api.github.com/users/tansaku',function(user){
-    			var newProfile = Mustache.render($('#profile-template').html(), user);
-    			$('.profile-container').append(newProfile);
-  			})
+				$('#add_profile').on('submit',function(event){
+					event.preventDefault();
+					addProfileFromUsername($('#username').val());
+				});
 			});
 		</script>
 
